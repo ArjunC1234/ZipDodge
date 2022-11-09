@@ -37,7 +37,7 @@ frames.then = frames.now
 frames.delta = frames.now - frames.then
 
 var wind = {
-  do : false,
+  do : true,
   vector : [-3, 4]
 }
 
@@ -104,7 +104,6 @@ function getVector() {
   if (player.speed >= dist(player.x, player.y, m.x, m.y) && player.acc) {
     player.x = m.x
     player.y = m.y
-    player.acc = false
   }
   else if (player.x != m.x || player.y != m.y) {
     player.vector = setVectorSpeed([m.x - player.x, m.y - player.y], player.speed)
@@ -112,6 +111,7 @@ function getVector() {
   else {
     player.vector = [0, 0]
   }
+  player.acc = false
   player.xvel = player.vector[0]
   player.yvel = player.vector[1]
 }
