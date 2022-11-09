@@ -118,10 +118,6 @@ function getVector() {
 function applyPlayerUpdates() {
   player.y += player.yvel
   player.x += player.xvel
-  if (wind.do) {
-    player.y += wind.vector[0]
-    player.x += wind.vector[1]
-  }
 }
 
 
