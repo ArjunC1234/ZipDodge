@@ -4,9 +4,9 @@
 
 var canvas = document.getElementById("canv")
 var ctx = canvas.getContext("2d")
-
 canvas.width = 500
 canvas.height = 500
+
 //player object
 var player = {
   xvel : 0,
@@ -34,8 +34,9 @@ frames.now = Date.now()
 frames.then = frames.now
 frames.delta = frames.now - frames.then
 
-
 // FUNCTIONS/EVENTS/ETC. ---------------------------------------------------------------------------------------
+
+
 
 //update mouse pos onclick
 canvas.addEventListener("mousedown", function (e) {
@@ -44,8 +45,10 @@ canvas.addEventListener("mousedown", function (e) {
   m.y = event.clientY - rect.top;
 })
 
+
 //draw function
 function draw() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height)
   ctx.beginPath();
   ctx.arc(player.x, player.y, player.radius, 0, 2 * Math.PI, false);
   ctx.fillStyle = 'cyan';
@@ -55,12 +58,41 @@ function draw() {
   ctx.stroke();
 }
 
+
+//set speed of vector
+function setVectorSpeed(vec, speed) {
+  let dividend = vec[0] / speed
+  return [vec[0]/dividend, vec[1]/dividend]
+}
+
+
+//dist calculator
+function dist(x1, y1, x2, y2) {
+  return Math.sqrt((x2-x1)**2 + (y2-y1)**2)
+}
+
+//sets player speed
+function setSpeed() {
+  let d = dist(player.x, player.y, m.x, m.y)
+  if (d )
+}
+
+
 //vector calculator function
-function getVector
+function getVector() {
+  if (player.x != m.x || player.y != m.y) {
+    player.vector = setVectorSpeed([player.x - m.x, player.y - m.y], player.speed)
+  }
+}
 
 
 //apply velocity
-function applyPlayerUpdates() 
+function applyPlayerUpdates() {
+  player.y += player.yvel
+  player.x += player.xvel
+}
+
+
 //game loop
 function loop() {
   requestAnimationFrame(loop)
@@ -69,10 +101,17 @@ function loop() {
   frames.delta = frames.now - frames.then
   
   if (frames.delta >= frames.interval) {
+    
+    getVector()
+    
+    applyPlayerUpdates()
     draw()
     
     frames.then = frames.now - (frames.delta % frames.interval);
   }
 }
 
+
+
+// CALL GAME LOOP --------------------------------------------------------------------
 loop()
