@@ -16,7 +16,8 @@ var player = {
   x : canvas.width/2,
   y : canvas.height/2,
   speed : 0,
-  maxspeed : 5
+  maxspeed : 5,
+  deaccdist : 150
 }
 
 //mouse pos
@@ -61,7 +62,12 @@ function draw() {
 
 //set speed of vector
 function setVectorSpeed(vec, speed) {
-  let dividend = Math.abs(vec[0]) / speed
+  let dividend
+  if (vec[0] >= player.maxspeed) {
+    let dividend = Math.abs(vec[0]) / speed
+  } else {
+    let dividend = Math.abs(vec[1]) / speed
+  }
   return [vec[0]/dividend, vec[1]/dividend]
 }
 
@@ -74,11 +80,11 @@ function dist(x1, y1, x2, y2) {
 //sets player speed
 function setSpeed() {
   let d = dist(player.x, player.y, m.x, m.y)
-  if (d >= 200) {
+  if (d >= player.deaccdist) {
     player.speed = player.maxspeed
   }
   else {
-    player.speed = player.maxspeed * (d/100)
+    player.speed = player.maxspeed * (d/player.deaccdist)
   }
 }
 
