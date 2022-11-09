@@ -16,7 +16,7 @@ var player = {
   x : canvas.width/2,
   y : canvas.height/2,
   speed : 0,
-  maxspeed : 5,
+  maxspeed : 15,
   deaccdist : 150
 }
 
@@ -34,6 +34,11 @@ frames.interval = 1000/frames.fps
 frames.now = Date.now()
 frames.then = frames.now
 frames.delta = frames.now - frames.then
+
+var wind = {
+  do : true,
+  vector : [-9, 7]
+}
 
 // FUNCTIONS/EVENTS/ETC. ---------------------------------------------------------------------------------------
 
@@ -63,10 +68,10 @@ function draw() {
 //set speed of vector
 function setVectorSpeed(vec, speed) {
   console.log()
-  if (Math.abs(vec[0]) >= speed) {
+  if (Math.abs(player.x - m.x) > Math.abs(player.y - m.y)) {
     let dividend = Math.abs(vec[0]) / speed
     return [vec[0]/dividend, vec[1]/dividend]
-  } else if (Math.abs(vec[1]) >= speed) {
+  } else if (Math.abs(player.x - m.x) < Math.abs(player.y - m.y)) {
     let dividend = Math.abs(vec[1]) / speed
     return [vec[0]/dividend, vec[1]/dividend]
   } else {
@@ -113,6 +118,10 @@ function getVector() {
 function applyPlayerUpdates() {
   player.y += player.yvel
   player.x += player.xvel
+  if (wind.do) {
+    player.y += wind.vector[0]
+    player.x += wind.vector[1]
+  }
 }
 
 
