@@ -61,7 +61,7 @@ function draw() {
 
 //set speed of vector
 function setVectorSpeed(vec, speed) {
-  let dividend = vec[0] / speed
+  let dividend = Math.abs(vec[0]) / speed
   return [vec[0]/dividend, vec[1]/dividend]
 }
 
@@ -74,15 +74,29 @@ function dist(x1, y1, x2, y2) {
 //sets player speed
 function setSpeed() {
   let d = dist(player.x, player.y, m.x, m.y)
-  if (d )
+  if (d >= 100) {
+    player.speed = player.maxspeed
+  }
+  else {
+    player.speed = player.maxspeed * (d/100)
+  }
 }
 
 
 //vector calculator function
 function getVector() {
-  if (player.x != m.x || player.y != m.y) {
-    player.vector = setVectorSpeed([player.x - m.x, player.y - m.y], player.speed)
+  if (dist(player.x, player.y, m.x, m.y) <= 2) {
+    player.x = m.x
+    player.y = m.y
   }
+  else if (player.x != m.x || player.y != m.y) {
+    player.vector = setVectorSpeed([m.x - player.x, m.y - player.y], player.speed)
+  }
+  else {
+    player.vector = [0, 0]
+  }
+  player.xvel = player.vector[0]
+  player.yvel = player.vector[1]
 }
 
 
@@ -101,7 +115,7 @@ function loop() {
   frames.delta = frames.now - frames.then
   
   if (frames.delta >= frames.interval) {
-    
+    setSpeed()
     getVector()
     
     applyPlayerUpdates()
