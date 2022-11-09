@@ -17,7 +17,8 @@ var player = {
   y : canvas.height/2,
   speed : 0,
   maxspeed : 15,
-  deaccdist : 150
+  deaccdist : 150,
+  acc : false
 }
 
 //mouse pos
@@ -37,7 +38,7 @@ frames.delta = frames.now - frames.then
 
 var wind = {
   do : true,
-  vector : [-9, 7]
+  vector : [-3, 4]
 }
 
 // FUNCTIONS/EVENTS/ETC. ---------------------------------------------------------------------------------------
@@ -49,6 +50,7 @@ canvas.addEventListener("mousedown", function (e) {
   let rect = canvas.getBoundingClientRect();
   m.x = event.clientX - rect.left;
   m.y = event.clientY - rect.top;
+  player.acc = true
 })
 
 
@@ -97,11 +99,12 @@ function setSpeed() {
 }
 
 
-//vector calculator function
+//vector calculator function  
 function getVector() {
-  if (player.speed >= dist(player.x, player.y, m.x, m.y)) {
+  if (player.speed >= dist(player.x, player.y, m.x, m.y) && player.acc) {
     player.x = m.x
     player.y = m.y
+    player.acc = false
   }
   else if (player.x != m.x || player.y != m.y) {
     player.vector = setVectorSpeed([m.x - player.x, m.y - player.y], player.speed)
@@ -118,6 +121,10 @@ function getVector() {
 function applyPlayerUpdates() {
   player.y += player.yvel
   player.x += player.xvel
+  if (wind.do) {
+    player.x += wind.vector[0]
+    player.y += wind.vector[1]
+  }
 }
 
 
