@@ -21,8 +21,8 @@ var player = {
 
 //mouse pos
 var m = {
-  x : 0,
-  y : 0
+  x : player.x,
+  y : player.y
 }
 
 //fps data
@@ -74,7 +74,7 @@ function dist(x1, y1, x2, y2) {
 //sets player speed
 function setSpeed() {
   let d = dist(player.x, player.y, m.x, m.y)
-  if (d >= 100) {
+  if (d >= 200) {
     player.speed = player.maxspeed
   }
   else {
@@ -85,7 +85,7 @@ function setSpeed() {
 
 //vector calculator function
 function getVector() {
-  if (dist(player.x, player.y, m.x, m.y) <= 2) {
+  if (player.speed >= dist(player.x, player.y, m.x, m.y)) {
     player.x = m.x
     player.y = m.y
   }
