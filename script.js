@@ -63,12 +63,14 @@ function draw() {
 //set speed of vector
 function setVectorSpeed(vec, speed) {
   console.log()
-  if (vec[0] >= player.speed) {
+  if (Math.abs(vec[0]) >= speed) {
     let dividend = Math.abs(vec[0]) / speed
     return [vec[0]/dividend, vec[1]/dividend]
-  } else if {
+  } else if (Math.abs(vec[1]) >= speed) {
     let dividend = Math.abs(vec[1]) / speed
     return [vec[0]/dividend, vec[1]/dividend]
+  } else {
+    return [0, 0]
   }
 }
 
