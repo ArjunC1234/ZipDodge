@@ -36,10 +36,6 @@ frames.now = Date.now()
 frames.then = frames.now
 frames.delta = frames.now - frames.then
 
-var wind = {
-  do : false,
-  vector : [-3, 4]
-}
 
 // FUNCTIONS/EVENTS/ETC. ---------------------------------------------------------------------------------------
 
