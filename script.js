@@ -4,8 +4,8 @@
 
 var canvas = document.getElementById("canv")
 var ctx = canvas.getContext("2d")
-canvas.width = 500
-canvas.height = 500
+canvas.width = 960
+canvas.height = 540
 
 //player object
 var player = {
@@ -86,12 +86,7 @@ function dist(x1, y1, x2, y2) {
 //sets player speed
 function setSpeed() {
   let d = dist(player.x, player.y, m.x, m.y)
-  if (d >= player.deaccdist) {
-    player.speed = player.maxspeed
-  }
-  else {
-    player.speed = player.maxspeed * (d/player.deaccdist)
-  }
+  player.speed = player.maxspeed * (d/player.deaccdist)
 }
 
 
@@ -119,6 +114,21 @@ function applyPlayerUpdates() {
   player.x += player.xvel
 }
 
+function worldBorder () {
+  if (player.x + player.radius > canvas.width) {
+    player.x = canvas.width - player.radius
+  }
+  if (player.y + player.radius > canvas.height) {
+    player.y = canvas.height - player.radius
+  }
+  if (player.x - player.radius < 0) {
+    player.x = player.radius
+  }
+  if (player.y - player.radius < 0) {
+    player.y = player.radius
+  }
+}
+
 
 //game loop
 function loop() {
@@ -132,6 +142,7 @@ function loop() {
     getVector()
     
     applyPlayerUpdates()
+    worldBorder()
     draw()
     
     frames.then = frames.now - (frames.delta % frames.interval);
