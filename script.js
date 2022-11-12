@@ -2,14 +2,19 @@
 // VARIRABLES/OBJECTS/ETC. ---------------------------------------------------------------------------------------
 
 
-var canvas = document.createElement("canvas")
+var canvas = document.getElementById("canv")
 var ctx = canvas.getContext("2d")
-var disp = document.getElementById("canv")
-var dtx = canvas.getContext("2d")
-canvas.width = 960
-canvas.height = 540
-disp.width = window.innerWidth
-disp.height = window.innerHeight
+canvas.width = 800
+canvas.height = 800
+
+//turret class
+function turret(x, y) {
+  this.x = x
+  this.y = y
+  this.rotation = 0
+  this.firetick
+}
+
 
 //player object
 var player = {
@@ -57,14 +62,14 @@ canvas.addEventListener("mousedown", function (e) {
 //draw function
 function draw() {
   ctx.clearRect(0, 0, canvas.width, canvas.height)
-  ctx.fillStyle="black"
+  ctx.fillStyle="gray"
   ctx.fillRect(0, 0, canvas.width, canvas.height)
   ctx.beginPath();
   ctx.arc(player.x, player.y, player.radius, 0, 2 * Math.PI, false);
   ctx.fillStyle = 'cyan';
   ctx.fill();
   ctx.lineWidth = player.radius/10;
-  ctx.strokeStyle = 'pink';
+  ctx.strokeStyle = 'black';
   ctx.stroke();
 }
 
@@ -135,6 +140,7 @@ function worldBorder () {
   }
 }
 
+
 //game loop
 function loop() {
   requestAnimationFrame(loop)
@@ -149,9 +155,6 @@ function loop() {
     applyPlayerUpdates()
     worldBorder()
     draw()
-    
-    dtx.clearRect(0, 0, disp.width, disp.height)
-    dtx.drawImage(canvas, 0, 0, canvas.width, canvas.height, 0, 0, disp.width, disp.height)
     
     frames.then = frames.now - (frames.delta % frames.interval);
   }
