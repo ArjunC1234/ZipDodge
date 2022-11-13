@@ -61,21 +61,18 @@
         src: ["https://cdn.glitch.global/1e1af976-7a99-41a5-88ae-13dd7378a285/lvl1-song.mp3?v=1668313777574"],
         volume : 1
       })
-      var musicstarted = false
       var flash = false
       document.body.onclick = () => {
-        if (!musicstarted) {
+        if (!music.playing()) {
           music.play()
-          musicstarted = true
           tempo = 259
           interval = 60000/tempo
           beatCounter = 0
           beatEvents = setInterval(function() {
-            console.log("hello")
             beatCounter++
-            if (beatCounter % 4 == 0) {
+            if (beatCounter % 8 == 0) {
               flash = true
-              setTimeout(function(){flash=false;}, 100)
+              setTimeout(function(){flash=false;}, interval)
             }
           }, interval)
         }
