@@ -173,22 +173,47 @@
         player.acc = true
       })
       
+      function RCcollision(circle,rect){
+          var distX = Math.abs(circle.x - rect.x-rect.w/2);
+          var distY = Math.abs(circle.y - rect.y-rect.h/2);
+
+          if (distX > (rect.w/2 + circle.r)) { return false; }
+          if (distY > (rect.h/2 + circle.r)) { return false; }
+
+          if (distX <= (rect.w/2)) { return true; } 
+          if (distY <= (rect.h/2)) { return true; }
+
+          var dx=distX-rect.w/2;
+          var dy=distY-rect.h/2;
+          return (dx*dx+dy*dy<=(circle.r*circle.r));
+      }
+      
       
       //collision
       function wallCollisions() {
+        let circle = {x:player.x, y:player.y, r:player.radius}
+        let rect1 = {x: 0, y: 0, width: 50, height : canvas.height}
+        let rect2 = {x: 0, y: 0, width: 50, height : canvas.height}
         for (var w = 0; w < walls.length; w++) {
           let wall = walls[w]
-          if (wall.from == "left") {
-
+          if (w.from == "left") {
+            rect1 = {x : wall.x, y : wall.y, width: wall.width, height: wall.gapy}
+            rect2 = {x : wall.x, y : (wall.gapy + wall.gap), width: wall.width, height: canvas.height - (wall.gapy + wall.gap)}
           }
-          else if (wall.from == "right") {
-
+          else if (w.from == "right") {
+            rect1 = {x : wall.x, y : wall.y, width: wall.width, height: wall.gapy)
+            rect2 = {x : wall.x, y : (wall.gapy + wall.gap), width: wall.width, height: canvas.height - (wall.gapy + wall.gap)}
           }
-          else if (wall.from == "up") {
-
+          else if (w.from == "up") {
+            rect1 = {x : wall.x, y : wall.y, width: wall.gapx, height: wall.width)
+            rect2 = {x : (wall.gapx + wall.gap), y : wall.y, width: canvas.width - (wall.gapx + wall.gap), height: wall.width}
           }
-          else if (wall.from == "down") {
-
+          else if (w.from == "down") {
+            rect1 = {x : wall.x, y : wall.y, width: wall.gapx, height: wall.width)
+            rect2 = {x : (wall.gapx + wall.gap), y : wall.y, width: canvas.width - (wall.gapx + wall.gap), height: wall.width}
+          }
+          if (RCcollision(circle, rect1) || RCcollision(circle, rect2)) {
+            return true
           }
         }
       }
