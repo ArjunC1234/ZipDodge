@@ -53,34 +53,31 @@
       ]
       */
       //music
-          tempo = 259
-          interval = 60000/tempo
-          musicStarted = true
-          beatCounter = 0
+      var tempo = 259
+      var beats = 
+      var interval = 60000/tempo
+      var beatCounter = 0
       var music = new Howl({
         src: ["https://cdn.glitch.global/1e1af976-7a99-41a5-88ae-13dd7378a285/lvl1-song.mp3?v=1668313777574"],
-        volume : 1,
-        onplay : isPlaying()
+        volume : 1
       })
       var musicStarted = false
       var flash = false
       document.body.onclick = () => {
         if (!musicStarted) {
           music.play()
-          beatEvents = setInterval(function() {
-            beatCounter++
-            if (beatCounter % 8 == 0) {
-              flash = true
-              setTimeout(function(){flash=false;}, interval/2)
-            }
-          }, interval)
+          musicStarted = true
+          isPlaying()
         }
       }
       
       function isPlaying(){
-         if(music.playing()){
-            setTimeout(isPlaying, ); //adjust timeout to fit your needs
-         }
+          if (beatCounter % 8 == 0) {
+            flash = true
+            setTimeout(function(){flash=false;}, interval/2)
+          }
+          beatCounter++
+          setTimeout(isPlaying, interval); //adjust timeout to fit your needs
       }
       
       //player object
@@ -229,11 +226,6 @@
           applyPlayerUpdates()
           worldBorder()
           draw()
-          
-          
-          if (musicStarted && !music.playing()){
-            clearInterval(beatEvents)
-          }
           
           
           frames.then = frames.now - (frames.delta % frames.interval);
