@@ -53,31 +53,35 @@
       ]
       */
       //music
-      var tempo
-      var interval
-      var beatCounter
-      var beatEvents
-      var music = new Howl({
-        src: ["https://cdn.glitch.global/1e1af976-7a99-41a5-88ae-13dd7378a285/lvl1-song.mp3?v=1668313777574"],
-        volume : 1
-      })
-      var flash = false
-      document.body.onclick = () => {
-        if (!music.playing()) {
-          music.play()
           tempo = 259
           interval = 60000/tempo
+          musicStarted = true
           beatCounter = 0
+      var music = new Howl({
+        src: ["https://cdn.glitch.global/1e1af976-7a99-41a5-88ae-13dd7378a285/lvl1-song.mp3?v=1668313777574"],
+        volume : 1,
+        onplay : isPlaying()
+      })
+      var musicStarted = false
+      var flash = false
+      document.body.onclick = () => {
+        if (!musicStarted) {
+          music.play()
           beatEvents = setInterval(function() {
             beatCounter++
             if (beatCounter % 8 == 0) {
               flash = true
-              setTimeout(function(){flash=false;}, interval)
+              setTimeout(function(){flash=false;}, interval/2)
             }
           }, interval)
         }
       }
       
+      function isPlaying(){
+         if(music.playing()){
+            setTimeout(isPlaying, ); //adjust timeout to fit your needs
+         }
+      }
       
       //player object
       var player = {
@@ -124,8 +128,9 @@
 
       //draw function
       function draw() {
+        ctx.globalCompositeOperation='source-over';
         ctx.clearRect(0, 0, canvas.width, canvas.height)
-        ctx.fillStyle="gray"
+        ctx.fillStyle="navy"
         ctx.fillRect(0, 0, canvas.width, canvas.height)
         ctx.beginPath();
         ctx.arc(player.x, player.y, player.radius, 0, 2 * Math.PI, false);
@@ -136,9 +141,9 @@
         ctx.stroke();
         
         if (flash) {
-          ctx.fillStyle="rgba(255, 255, 255, 0.7)"
+          ctx.globalCompositeOperation='difference';
+          ctx.fillStyle='white';
           ctx.fillRect(0, 0, canvas.width, canvas.height)
-          console.log("hiiii")
         }
       }
 
@@ -224,7 +229,13 @@
           applyPlayerUpdates()
           worldBorder()
           draw()
-
+          
+          
+          if (musicStarted && !music.playing()){
+            clearInterval(beatEvents)
+          }
+          
+          
           frames.then = frames.now - (frames.delta % frames.interval);
         }
       }
