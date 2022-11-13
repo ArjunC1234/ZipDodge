@@ -32,6 +32,11 @@
         this.rotation = 0
         this.firetick
       }
+      /*
+      var flash=false
+      function flashEvent () {
+        
+      }
       function beatEvent(quarter, callback=function(){}){
         
         this.in = {
@@ -43,17 +48,33 @@
         this.callback = callback
       
       }
-      var tempo = 259
+      var events = [
+        beatEvent()
+      ]
+      */
       //music
+      var tempo
+      var interval
+      var beatCounter
+      var beatEvents
       var music = new Howl({
         src: ["https://cdn.glitch.global/1e1af976-7a99-41a5-88ae-13dd7378a285/lvl1-song.mp3?v=1668313777574"],
         volume : 1
       })
       var musicstarted = false
+      var flash = false
       document.body.onmousemove = () => {
         if (!musicstarted) {
           music.play()
           musicstarted = true
+          interval = 1000/4
+          beatCounter = 0
+          beatEvents = setInterval(function() {
+            beatCounter++
+            if (beatCounter %% 4 == 0) {
+              
+            }
+          }, interval)
         }
       }
       
