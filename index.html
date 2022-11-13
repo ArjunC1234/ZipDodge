@@ -54,9 +54,10 @@
       */
       //music
       var tempo = 259
-      var beats = 
+      var beats = 272
       var interval = 60000/tempo
       var beatCounter = 0
+      var stop
       var music = new Howl({
         src: ["https://cdn.glitch.global/1e1af976-7a99-41a5-88ae-13dd7378a285/lvl1-song.mp3?v=1668313777574"],
         volume : 1
@@ -67,17 +68,23 @@
         if (!musicStarted) {
           music.play()
           musicStarted = true
+          stop = false
           isPlaying()
         }
       }
       
       function isPlaying(){
-          if (beatCounter % 8 == 0) {
+          if (beatCounter / beats == 1) {
+            stop = true
+          }
+          if (beatCounter % 8 == 0 && stop == false) {
             flash = true
             setTimeout(function(){flash=false;}, interval/2)
           }
           beatCounter++
-          setTimeout(isPlaying, interval); //adjust timeout to fit your needs
+          if (stop == false) {
+            setTimeout(isPlaying, interval); //adjust timeout to fit your needs
+          }
       }
       
       //player object
