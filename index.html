@@ -63,16 +63,19 @@
       })
       var musicstarted = false
       var flash = false
-      document.body.onmousemove = () => {
+      document.body.onclick = () => {
         if (!musicstarted) {
           music.play()
           musicstarted = true
-          interval = 1000/4
+          tempo = 259
+          interval = 60000/tempo
           beatCounter = 0
           beatEvents = setInterval(function() {
+            console.log("hello")
             beatCounter++
-            if (beatCounter %% 4 == 0) {
-              
+            if (beatCounter % 4 == 0) {
+              flash = true
+              setTimeout(function(){flash=false;}, 100)
             }
           }, interval)
         }
@@ -134,6 +137,12 @@
         ctx.lineWidth = player.radius/10;
         ctx.strokeStyle = 'black';
         ctx.stroke();
+        
+        if (flash) {
+          ctx.fillStyle="rgba(255, 255, 255, 0.7)"
+          ctx.fillRect(0, 0, canvas.width, canvas.height)
+          console.log("hiiii")
+        }
       }
 
 
