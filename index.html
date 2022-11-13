@@ -23,24 +23,42 @@
       
   
       // VARIRABLES/OBJECTS/ETC. ---------------------------------------------------------------------------------------
-
       
+      
+      function random(min, max) { // min and max included 
+        return Math.floor(Math.random() * (max - min + 1) + min)
+      }
+      
+      
+      var walls = []
+      var directions = ["left", " right", "up", "down"]
+      directions.random = (this) => {
+        return this[]
+      }
       //wall class 
       function wall (from="left") {
         this.from = from
         this.speed = 4
+        this.gap = player.radius * 3
         if (this.from == "left") {
           this.x = -50
           this.y = 0
         } else if (this.from == "up") {
           this.x = 0
           this.y = -50
+          this.gapx = random(50, canvas.width - (50 + this.gap))
         } else if (this.from == "right") {
           this.x = canvas.width + 50
           this.y = 0
+          this.gapy = random(50, canvas.height - (50 + this.gap))
         } else if (this.from == "down") {
           this.x = 0
           this.y = canvas.height + 50
+          this.gapx = random(50, canvas.width - (50 + this.gap))
+        }
+        this.draw = () => {
+          ctx.fillStyle = "red"
+          
         }
       }
       
