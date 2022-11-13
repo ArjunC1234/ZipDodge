@@ -25,6 +25,14 @@
       // VARIRABLES/OBJECTS/ETC. ---------------------------------------------------------------------------------------
       
       
+      
+      //event checks
+      var events = {
+        now : Date.now(),
+        then : Date.now()
+      }
+      
+      
       function random(min, max) { // min and max included 
         return Math.floor(Math.random() * (max - min + 1) + min)
       }
@@ -101,6 +109,11 @@
       }
       
       function isPlaying(){
+          events.now = Date.now()
+          let offset = 0
+          if (beatCounter != 0) {
+            offset = interval - (events.now - events.then)
+          }
           if (beatCounter / beats == 1) {
             stop = true
           }
@@ -112,8 +125,9 @@
             setTimeout(function(){flash=false;}, interval/2)
           }
           beatCounter++
+          events.then = events.now
           if (stop == false) {
-            setTimeout(isPlaying, interval); //adjust timeout to fit your needs
+            setTimeout(isPlaying, interval + offset); //adjust timeout to fit your needs
           }
       }
       
