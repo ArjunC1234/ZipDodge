@@ -40,10 +40,11 @@
         this.from = from
         this.speed = 4
         this.width = 50
-        this.gap = player.radius * 3
+        this.gap = player.radius * 6
         if (this.from == "left") {
           this.x = -50
           this.y = 0
+          this.gapy = random(50, canvas.height - (50 + this.gap))
         } else if (this.from == "up") {
           this.x = 0
           this.y = -50
@@ -60,16 +61,20 @@
         this.draw = () => {
           ctx.fillStyle = "red"
           if (this.from == "left") {
-            ctx.fillRect(this.x)
+            ctx.fillRect(this.x, this.y, this.width, this.gapy)
+            ctx.fillRect(this.x, (this.gapy + this.gap), this.width, canvas.height - (this.gapy + this.gap))
           }
           else if (this.from == "right") {
-
+            ctx.fillRect(this.x, this.y, this.width, this.gapy)
+            ctx.fillRect(this.x, (this.gapy + this.gap), this.width, canvas.height - (this.gapy + this.gap))
           }
           else if (this.from == "up") {
-
+            ctx.fillRect(this.x, this.y, this.gapx, this.width)
+            ctx.fillRect((this.gapx + this.gap), this.y, canvas.width - (this.gapx + this.gap), this.width)
           }
           else if (this.from == "down") {
-
+            ctx.fillRect(this.x, this.y, this.gapx, this.width)
+            ctx.fillRect((this.gapx + this.gap), this.y, canvas.width - (this.gapx + this.gap), this.width)
           }
         }
       }
@@ -102,6 +107,9 @@
           if (beatCounter % 8 == 0 && stop == false) {
             flash = true
             setTimeout(function(){flash=false;}, interval/2)
+          }
+          if (beatCounter % 4 == 0 && stop == false) {
+            walls.push(new wall(directions.random()))
           }
           beatCounter++
           if (stop == false) {
@@ -184,7 +192,6 @@
             }
             wall.y -= wall.speed
           }
-          wall.draw()
         }
       }
       
@@ -195,6 +202,10 @@
         ctx.clearRect(0, 0, canvas.width, canvas.height)
         ctx.fillStyle="navy"
         ctx.fillRect(0, 0, canvas.width, canvas.height)
+        
+        for (var w = 0; w<walls.length; w++) {
+          walls[w].draw()
+        }
         ctx.beginPath();
         ctx.arc(player.x, player.y, player.radius, 0, 2 * Math.PI, false);
         ctx.fillStyle = 'cyan';
@@ -291,6 +302,7 @@
 
           applyPlayerUpdates()
           worldBorder()
+          wallcalcs()
           draw()
           
           
