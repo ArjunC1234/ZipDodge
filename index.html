@@ -26,33 +26,25 @@
 
       
       //turret class
-      function turret(x, y) {
-        this.x = x
-        this.y = y
-        this.rotation = 0
-        this.firetick
-      }
-      /*
-      var flash=false
-      function flashEvent () {
-        
-      }
-      function beatEvent(quarter, callback=function(){}){
-        
-        this.in = {
-          16 : quarter*4,
-          8 : quarter*2,
-          4 : quarter
+      function wall (from="left") {
+        this.from = from
+        this.speed = 4
+        if (this.from == "left") {
+          this.x = -50
+          this.y = 0
+        } else if (this.from == "up") {
+          this.x = 0
+          this.y = -50
+        } else if (this.from == "right") {
+          this.x = canvas.width + 50
+          this.y = 0
+        } else if (this.from == "down") {
+          this.x = 0
+          this.y = canvas.height + 50
         }
-        
-        this.callback = callback
-      
       }
-      var events = [
-        beatEvent()
-      ]
-      */
-      //music
+      
+      
       var tempo = 259
       var beats = 272
       var interval = 60000/tempo
