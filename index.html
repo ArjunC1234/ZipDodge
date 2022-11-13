@@ -32,13 +32,14 @@
       
       var walls = []
       var directions = ["left", " right", "up", "down"]
-      directions.random = (this) => {
-        return this[]
+      directions.random = function () {
+        return this[random(0, this.length-1)]
       }
       //wall class 
       function wall (from="left") {
         this.from = from
         this.speed = 4
+        this.width = 50
         this.gap = player.radius * 3
         if (this.from == "left") {
           this.x = -50
@@ -58,7 +59,18 @@
         }
         this.draw = () => {
           ctx.fillStyle = "red"
-          
+          if (this.from == "left") {
+            ctx.fillRect(this.x)
+          }
+          else if (this.from == "right") {
+
+          }
+          else if (this.from == "up") {
+
+          }
+          else if (this.from == "down") {
+
+          }
         }
       }
       
@@ -138,8 +150,45 @@
         m.y = event.clientY - rect.top;
         player.acc = true
       })
-
-
+      
+      
+      //wall animations/collisions
+      function wallcalcs() {
+        for (var w = 0; w < walls.length; w++) {
+          let wall = walls[w]
+          if (wall.from == "left") {
+            if (wall.x > canvas.width) {
+              walls.splice(w, 1)
+              continue
+            }
+            wall.x += wall.speed
+          }
+          else if (wall.from == "right") {
+            if (wall.x < -50) {
+              walls.splice(w, 1)
+              continue
+            }
+            wall.x -= wall.speed
+          }
+          else if (wall.from == "up") {
+            if (wall.y > canvas.height) {
+              walls.splice(w, 1)
+              continue
+            }
+            wall.y += wall.speed
+          }
+          else if (wall.from == "down") {
+            if (wall.y < -50) {
+              walls.splice(w, 1)
+              continue
+            }
+            wall.y -= wall.speed
+          }
+          wall.draw()
+        }
+      }
+      
+      
       //draw function
       function draw() {
         ctx.globalCompositeOperation='source-over';
