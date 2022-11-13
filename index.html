@@ -1,19 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    
     <!-- Import the webpage's stylesheet -->
     <link rel="stylesheet" href="/style.css" />
-
-    <!-- Import the webpage's javascript file -->
-    <script src="/script.js" defer></script>
   </head>
   <body>
     <canvas id="canv"></canvas>
-        <script
+    <script
       src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.1/howler.min.js"
       integrity="sha512-L6Z/YtIPQ7eU3BProP34WGU5yIRk7tNHk7vaC2dB1Vy1atz6wl9mCkTPPZ2Rn1qPr+vY2mZ9odZLdGYuaBk7dQ=="
       crossorigin="anonymous"
-    ></script>
+    ></script> 
     <script>
 
       // VARIRABLES/OBJECTS/ETC. ---------------------------------------------------------------------------------------
@@ -34,8 +32,11 @@
       
       //music
       var music = new Howl({
-        src: [""]
+        src: ["https://cdn.glitch.global/1e1af976-7a99-41a5-88ae-13dd7378a285/lvl1-song.mp3?v=1668313777574"],
+        volume : 0.7
       })
+      document.addEventListener("DOMContentLoaded", () => {})
+      music.play()
       //player object
       var player = {
         xvel : 0,
