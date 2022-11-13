@@ -113,6 +113,7 @@
           let offset = 0
           if (beatCounter != 0) {
             offset = interval - (events.now - events.then)
+            console.log(events.now - events.then)
           }
           if (beatCounter / beats == 1) {
             stop = true
