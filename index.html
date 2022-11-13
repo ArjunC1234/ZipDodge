@@ -112,8 +112,7 @@
           events.now = Date.now()
           let offset = 0
           if (beatCounter != 0) {
-            offset = interval - (events.now - events.then)
-            console.log(events.now - events.then)
+            offset = interval - (events.now - events.then) //makes up for inexactness of setTimeout()
           }
           if (beatCounter / beats == 1) {
             stop = true
@@ -165,7 +164,7 @@
       // FUNCTIONS/EVENTS/ETC. ---------------------------------------------------------------------------------------
 
 
-
+      
       //update mouse pos onclick
       canvas.addEventListener("mousedown", function (e) {
         let rect = canvas.getBoundingClientRect();
@@ -174,6 +173,25 @@
         player.acc = true
       })
       
+      
+      //collision
+      function wallCollisions() {
+        for (var w = 0; w < walls.length; w++) {
+          let wall = walls[w]
+          if (wall.from == "left") {
+
+          }
+          else if (wall.from == "right") {
+
+          }
+          else if (wall.from == "up") {
+
+          }
+          else if (wall.from == "down") {
+
+          }
+        }
+      }
       
       //wall animations/collisions
       function wallcalcs() {
