@@ -31,7 +31,7 @@
       
       
       var walls = []
-      var directions = ["left", " right", "up", "down"]
+      var directions = ["left", "right", "up", "down"]
       directions.random = function () {
         return this[random(0, this.length-1)]
       }
@@ -106,7 +106,7 @@
           }
           if (beatCounter % 8 == 0 && stop == false) {
             flash = true
-            if (beatCounter < beats - 8) {
+            if (beatCounter < beats - 12) {
               walls.push(new wall(directions.random()))
             }
             setTimeout(function(){flash=false;}, interval/2)
