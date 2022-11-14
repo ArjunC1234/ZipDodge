@@ -174,6 +174,7 @@
       })
       
       function RCcollision(circle,rect){
+          let circle = {x: circle.x - circle.r, y: circle.y - circle.r, r:circle.r}
           var distX = Math.abs(circle.x - rect.x-rect.w/2);
           var distY = Math.abs(circle.y - rect.y-rect.h/2);
 
@@ -192,28 +193,30 @@
       //collision
       function wallCollisions() {
         let circle = {x:player.x, y:player.y, r:player.radius}
-        let rect1 = {x: 0, y: 0, width: 50, height : canvas.height}
-        let rect2 = {x: 0, y: 0, width: 50, height : canvas.height}
+        let rect1 = {x: 0, y: 0, w: 50, h : canvas.height}
+        let rect2 = {x: 0, y: 0, w: 50, h : canvas.height}
         for (var w = 0; w < walls.length; w++) {
           let wall = walls[w]
           if (w.from == "left") {
-            rect1 = {x : wall.x, y : wall.y, width: wall.width, height: wall.gapy}
-            rect2 = {x : wall.x, y : (wall.gapy + wall.gap), width: wall.width, height: canvas.height - (wall.gapy + wall.gap)}
+            rect1 = {x : wall.x, y : wall.y, w: wall.width, h: wall.gapy}
+            rect2 = {x : wall.x, y : (wall.gapy + wall.gap), w: wall.width, h: canvas.height - (wall.gapy + wall.gap)}
           }
           else if (w.from == "right") {
-            rect1 = {x : wall.x, y : wall.y, width: wall.width, height: wall.gapy)
-            rect2 = {x : wall.x, y : (wall.gapy + wall.gap), width: wall.width, height: canvas.height - (wall.gapy + wall.gap)}
+            rect1 = {x : wall.x, y : wall.y, w: wall.width, h: wall.gapy}
+            rect2 = {x : wall.x, y : (wall.gapy + wall.gap), w: wall.width, h: canvas.height - (wall.gapy + wall.gap)}
           }
           else if (w.from == "up") {
-            rect1 = {x : wall.x, y : wall.y, width: wall.gapx, height: wall.width)
-            rect2 = {x : (wall.gapx + wall.gap), y : wall.y, width: canvas.width - (wall.gapx + wall.gap), height: wall.width}
+            rect1 = {x : wall.x, y : wall.y, w: wall.gapx, h: wall.width}
+            rect2 = {x : (wall.gapx + wall.gap), y : wall.y, w: canvas.width - (wall.gapx + wall.gap), h: wall.width}
           }
           else if (w.from == "down") {
-            rect1 = {x : wall.x, y : wall.y, width: wall.gapx, height: wall.width)
-            rect2 = {x : (wall.gapx + wall.gap), y : wall.y, width: canvas.width - (wall.gapx + wall.gap), height: wall.width}
+            rect1 = {x : wall.x, y : wall.y, w: wall.gapx, h: wall.width}
+            rect2 = {x : (wall.gapx + wall.gap), y : wall.y, w: canvas.width - (wall.gapx + wall.gap), h: wall.width}
           }
           if (RCcollision(circle, rect1) || RCcollision(circle, rect2)) {
-            return true
+            console.log("CUEFUEWHFUW")
+            prompt("Enter your last words here: ")
+            window.location.href = window.location.href
           }
         }
       }
@@ -361,6 +364,7 @@
           applyPlayerUpdates()
           worldBorder()
           wallcalcs()
+          wallCollisions()
           draw()
           
           
