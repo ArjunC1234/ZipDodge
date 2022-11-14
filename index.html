@@ -33,11 +33,6 @@
       }
       
       
-      function random(min, max) { // min and max included 
-        return Math.floor(Math.random() * (max - min + 1) + min)
-      }
-      
-      
       var walls = []
       var directions = ["left", "right", "up", "down"]
       directions.random = function () {
@@ -99,37 +94,6 @@
       })
       var musicStarted = false
       var flash = false
-      document.body.onclick = () => {
-        if (!musicStarted) {
-          music.play()
-          musicStarted = true
-          stop = false
-          isPlaying()
-        }
-      }
-      
-      function isPlaying(){
-          events.now = Date.now()
-          let offset = 0
-          if (beatCounter != 0) {
-            offset = interval - (events.now - events.then) //makes up for inexactness of setTimeout()
-          }
-          if (beatCounter / beats == 1) {
-            stop = true
-          }
-          if (beatCounter % 8 == 0 && stop == false) {
-            flash = true
-            if (beatCounter < beats - 12) {
-              walls.push(new wall(directions.random()))
-            }
-            setTimeout(function(){flash=false;}, interval/2)
-          }
-          beatCounter++
-          events.then = events.now
-          if (stop == false) {
-            setTimeout(isPlaying, interval + offset); //adjust timeout to fit your needs
-          }
-      }
       
       //player object
       var player = {
@@ -162,9 +126,39 @@
 
 
       // FUNCTIONS/EVENTS/ETC. ---------------------------------------------------------------------------------------
-
-
-      
+      function random(min, max) { // min and max included 
+        return Math.floor(Math.random() * (max - min + 1) + min)
+      }
+      document.body.onclick = () => {
+        if (!musicStarted) {
+          music.play()
+          musicStarted = true
+          stop = false
+          isPlaying()
+        }
+      }
+      function isPlaying(){
+          events.now = Date.now()
+          let offset = 0
+          if (beatCounter != 0) {
+            offset = interval - (events.now - events.then) //makes up for inexactness of setTimeout()
+          }
+          if (beatCounter / beats == 1) {
+            stop = true
+          }
+          if (beatCounter % 8 == 0 && stop == false) {
+            flash = true
+            if (beatCounter < beats - 12) {
+              walls.push(new wall(directions.random()))
+            }
+            setTimeout(function(){flash=false;}, interval/2)
+          }
+          beatCounter++
+          events.then = events.now
+          if (stop == false) {
+            setTimeout(isPlaying, interval + offset); //adjust timeout to fit your needs
+          }
+      }
       //update mouse pos onclick
       canvas.addEventListener("mousedown", function (e) {
         let rect = canvas.getBoundingClientRect();
@@ -174,19 +168,19 @@
       })
       
       function RCcollision(circle,rect){
-          let circle = {x: circle.x - circle.r, y: circle.y - circle.r, r:circle.r}
-          var distX = Math.abs(circle.x - rect.x-rect.w/2);
-          var distY = Math.abs(circle.y - rect.y-rect.h/2);
+          let c = {x: circle.x - circle.r, y: circle.y - circle.r, r:circle.r}
+          var distX = Math.abs(c.x - rect.x-rect.w/2);
+          var distY = Math.abs(c.y - rect.y-rect.h/2);
 
-          if (distX > (rect.w/2 + circle.r)) { return false; }
-          if (distY > (rect.h/2 + circle.r)) { return false; }
+          if (distX > (rect.w/2 + c.r)) { return false; }
+          if (distY > (rect.h/2 + c.r)) { return false; }
 
           if (distX <= (rect.w/2)) { return true; } 
           if (distY <= (rect.h/2)) { return true; }
 
           var dx=distX-rect.w/2;
           var dy=distY-rect.h/2;
-          return (dx*dx+dy*dy<=(circle.r*circle.r));
+          return (dx*dx+dy*dy<=(c.r*c.r));
       }
       
       
@@ -197,26 +191,26 @@
         let rect2 = {x: 0, y: 0, w: 50, h : canvas.height}
         for (var w = 0; w < walls.length; w++) {
           let wall = walls[w]
-          if (w.from == "left") {
+          if (wall.from == "left") {
             rect1 = {x : wall.x, y : wall.y, w: wall.width, h: wall.gapy}
             rect2 = {x : wall.x, y : (wall.gapy + wall.gap), w: wall.width, h: canvas.height - (wall.gapy + wall.gap)}
           }
-          else if (w.from == "right") {
+          else if (wall.from == "right") {
             rect1 = {x : wall.x, y : wall.y, w: wall.width, h: wall.gapy}
             rect2 = {x : wall.x, y : (wall.gapy + wall.gap), w: wall.width, h: canvas.height - (wall.gapy + wall.gap)}
           }
-          else if (w.from == "up") {
+          else if (wall.from == "up") {
             rect1 = {x : wall.x, y : wall.y, w: wall.gapx, h: wall.width}
             rect2 = {x : (wall.gapx + wall.gap), y : wall.y, w: canvas.width - (wall.gapx + wall.gap), h: wall.width}
           }
-          else if (w.from == "down") {
+          else if (wall.from == "down") {
             rect1 = {x : wall.x, y : wall.y, w: wall.gapx, h: wall.width}
             rect2 = {x : (wall.gapx + wall.gap), y : wall.y, w: canvas.width - (wall.gapx + wall.gap), h: wall.width}
           }
           if (RCcollision(circle, rect1) || RCcollision(circle, rect2)) {
-            console.log("CUEFUEWHFUW")
+            music.stop()
             prompt("Enter your last words here: ")
-            window.location.href = window.location.href
+            
           }
         }
       }
