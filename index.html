@@ -25,7 +25,6 @@
       // VARIRABLES/OBJECTS/ETC. ---------------------------------------------------------------------------------------
       
       
-      
       //event checks
       var events = {
         now : Date.now(),
@@ -166,11 +165,13 @@
             stop = true
           }
           if (beatCounter % 8 == 0 && stop == false) {
-            flash = true
-            if (beatCounter < beats - 12) {
+            if (beatCounter < beats - 8) {
+              flash = true
+              flashtimeout = setTimeout(function(){flash=false;}, interval/2)
               walls.push(new wall(directions.random()))
+            } else {
+              flash = true
             }
-            flashtimeout = setTimeout(function(){flash=false;}, interval/2)
           }
           beatCounter++
           events.then = events.now
@@ -379,7 +380,7 @@
           wallCollisions()
           draw()
           
-          if (beatCounter / beats == 1) {
+          if (beatCounter / beats >= 1 && !walls.length) {
             alert("You did it!!")
             reset()
           }
