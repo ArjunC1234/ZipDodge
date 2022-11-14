@@ -175,6 +175,9 @@
           if (beatCounter % 4 == 0 && stop == false) {
             if (beatCounter < beats - 8) {
               if ((beatCounter >= 32 && beatCounter < 64) || (beatCounter >= 200 && beatCounter < 264)) {
+                if (beatCounter >= 200 && beatCounter < 204) {
+                  walls.splice(0, 4)
+                }
                 walls.push(new wall(directions.random(), speed=7))
                 flash = true
                 flashtimeout = setTimeout(function(){flash=false;}, interval/2)
