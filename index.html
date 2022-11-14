@@ -38,9 +38,9 @@
         return this[random(0, this.length-1)]
       }
       //wall class 
-      function wall (from="left") {
+      function wall (from="left", speed=4) {
         this.from = from
-        this.speed = 4
+        this.speed = speed
         this.width = 50
         this.gap = player.radius * 8
         if (this.from == "left") {
@@ -168,9 +168,13 @@
             if (beatCounter < beats - 8) {
               flash = true
               flashtimeout = setTimeout(function(){flash=false;}, interval/2)
-              walls.push(new wall(directions.random()))
             } else {
               flash = true
+            }
+          }
+          if (beatCounter % 4 == 0 && stop == false) {
+            if ((beatCounter >= 32 && beatCounter < 64) || (beatCounter >= 200 && beatCounter < 264)) {
+              walls.push(new wall(directions.random()), speed=6)
             }
           }
           beatCounter++
