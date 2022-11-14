@@ -173,9 +173,25 @@
             }
           }
           if (beatCounter % 4 == 0 && stop == false) {
-            if ((beatCounter >= 32 && beatCounter < 64) || (beatCounter >= 200 && beatCounter < 264)) {
-              walls.push(new wall(directions.random()), speed=6)
+            if (beatCounter < beats - 8) {
+              if ((beatCounter >= 32 && beatCounter < 64) || (beatCounter >= 200 && beatCounter < 264)) {
+                walls.push(new wall(directions.random(), speed=7))
+                flash = true
+                flashtimeout = setTimeout(function(){flash=false;}, interval/2)
+              }
+              else if (beatCounter % 8 == 0 && !(beatCounter >= 192 && beatCounter < 200)) {
+                flash = true
+                flashtimeout = setTimeout(function(){flash=false;}, interval/2)
+                walls.push(new wall(directions.random(), speed=6))
+              }
+            } else {
+              flash = true
             }
+          }
+          if (beatCounter % 2 == 0 && !stop && (beatCounter >= 192 && beatCounter < 200)) {
+              flash = true
+              flashtimeout = setTimeout(function(){flash=false;}, interval/2)
+              walls.push(new wall(directions.random(), speed=3))
           }
           beatCounter++
           events.then = events.now
