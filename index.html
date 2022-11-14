@@ -114,7 +114,9 @@
         x : player.x,
         y : player.y
       }
-
+      
+      var evetimeout
+      var flashtimeout
       //fps data
       var frames = {
         fps : 60
@@ -126,6 +128,23 @@
 
 
       // FUNCTIONS/EVENTS/ETC. ---------------------------------------------------------------------------------------
+      
+      function reset() {
+        beatCounter = 0
+        player.x = canvas.width/2
+        player.y = canvas.height/2
+        musicStarted = false
+        player.speed = 0
+        player.vector = [0, 0]
+        player.xvel = 0
+        player.yvel = 0
+        m.x = player.x
+        m.y = player.y
+        flash = false
+        walls = []
+        clearTimeout(evetimeout)
+        clearTimeout(flashtimeout)
+      }
       function random(min, max) { // min and max included 
         return Math.floor(Math.random() * (max - min + 1) + min)
       }
@@ -151,12 +170,12 @@
             if (beatCounter < beats - 12) {
               walls.push(new wall(directions.random()))
             }
-            setTimeout(function(){flash=false;}, interval/2)
+            flashtimeout = setTimeout(function(){flash=false;}, interval/2)
           }
           beatCounter++
           events.then = events.now
           if (stop == false) {
-            setTimeout(isPlaying, interval + offset); //adjust timeout to fit your needs
+            evetimeoout = setTimeout(isPlaying, interval + offset); //adjust timeout to fit your needs
           }
       }
       //update mouse pos onclick
@@ -168,7 +187,7 @@
       })
       
       function RCcollision(circle,rect){
-          let c = {x: circle.x - circle.r, y: circle.y - circle.r, r:circle.r}
+          let c = circle
           var distX = Math.abs(c.x - rect.x-rect.w/2);
           var distY = Math.abs(c.y - rect.y-rect.h/2);
 
@@ -209,8 +228,7 @@
           }
           if (RCcollision(circle, rect1) || RCcollision(circle, rect2)) {
             music.stop()
-            prompt("Enter your last words here: ")
-            
+            reset()
           }
         }
       }
