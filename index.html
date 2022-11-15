@@ -23,8 +23,17 @@
       
       var disp = document.getElementById("canv")
       var dtx = disp.getContext("2d")
-      disp.height = window.innerHeight
-      disp.width = disp.height
+      if (window.innerWidth > window.innerHeight) {
+        disp.height = window.innerHeight
+        disp.width = disp.height
+      } else if (window.innerWidth < window.innerHeight) {
+        disp.width = window.innerWidth
+        disp.height = disp.width
+      } else {
+        disp.height = window.innerHeight
+        disp.width = disp.height
+      }
+
       
   
       // VARIRABLES/OBJECTS/ETC. ---------------------------------------------------------------------------------------
@@ -411,7 +420,19 @@
           player.y = player.radius
         }
       }
-
+      //adaptive canvas size
+      function adaptCanvas() {
+        if (window.innerWidth > window.innerHeight) {
+          disp.height = window.innerHeight
+          disp.width = disp.height
+        } else if (window.innerWidth < window.innerHeight) {
+          disp.width = window.innerWidth
+          disp.height = disp.width
+        } else {
+          disp.height = window.innerHeight
+          disp.width = disp.height
+        }
+      }
 
       //game loop
       function loop() {
@@ -428,6 +449,7 @@
           worldBorder()
           wallcalcs()
           wallCollisions()
+          adaptCanvas()
           draw()
           
           if (beatCounter / beats >= 1 && !walls.length) {
