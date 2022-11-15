@@ -329,6 +329,10 @@
           ctx.fillStyle='white';
           ctx.fillRect(0, 0, canvas.width, canvas.height)
         }
+        
+        
+        dtx.clearRect(0, 0, disp.width, disp.height)
+        dtx.drawImage(canvas, sx=0, sy=0, sw=canvas.width, sh=canvas.height, dx=0, dy=0, dw=disp.width, dh=disp.height)
       }
 
 
@@ -420,9 +424,6 @@
             alert("You did it!!")
             reset()
           }
-          
-          dtx.clearRect(0, 0, disp.width, disp.height)
-          dtx.drawImage(canvas, sx=0, sy=0, sw=canvas.width, sh=canvas.height, dx=0, dy=0, dw=disp.width, dh=disp.height)
           
           frames.then = frames.now - (frames.delta % frames.interval);
         }
