@@ -13,7 +13,10 @@
       crossorigin="anonymous"
     ></script> 
     <script>
-
+      var is_mobile = !!navigator.userAgent.match(/iphone|android|blackberry/ig) || false;
+      if (true) {
+        window.location.pathname = "/mobile.html"
+      }
       // CANVAS ---------------------------------------------------------------------------------------
 
       var canvas = document.createElement("canvas")
