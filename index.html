@@ -16,10 +16,15 @@
 
       // CANVAS ---------------------------------------------------------------------------------------
 
-      var canvas = document.getElementById("canv")
+      var canvas = document.createElement("canvas")
       var ctx = canvas.getContext("2d")
       canvas.width = 800
       canvas.height = 800
+      
+      var disp = document.getElementById("canv")
+      var dtx = disp.getContext("2d")
+      disp.height = window.innerHeight
+      disp.width = disp.height
       
   
       // VARIRABLES/OBJECTS/ETC. ---------------------------------------------------------------------------------------
@@ -208,10 +213,12 @@
           }
       }
       //update mouse pos onclick
-      canvas.addEventListener("mousedown", function (e) {
+      disp.addEventListener("mousedown", function (e) {
         let rect = canvas.getBoundingClientRect();
-        m.x = event.clientX - rect.left;
-        m.y = event.clientY - rect.top;
+        let x = event.clientX - rect.left;
+        let y = event.clientY - rect.top;
+        m.x = x*(canvas.height/disp.height)
+        m.y = y*(disp.width/canvas.width)
         player.acc = true
       })
       
@@ -412,6 +419,9 @@
             alert("You did it!!")
             reset()
           }
+          
+          dtx.clearRect(0, 0, disp.width, disp.height)
+          dtx.drawImage(canvas, sx=0, sy=0, sw=canvas.width, sh=canvas.height, dx=0, dy=0, dw=disp.width, dh=disp.height)
           
           frames.then = frames.now - (frames.delta % frames.interval);
         }
