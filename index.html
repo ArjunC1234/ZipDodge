@@ -212,13 +212,23 @@
             evetimeout = setTimeout(isPlaying, interval + offset); //adjust timeout to fit your needs
           }
       }
+      
+      
+      //disp coords to canvas coords
+      function dispToCanvas(x, y) {
+        let yr = disp.height/canvas.height
+        let xr = disp.width/canvas.width
+        return {x: x/xr, y: y/yr}
+      }
+      
+      
       //update mouse pos onclick
       disp.addEventListener("mousedown", function (e) {
-        let rect = canvas.getBoundingClientRect();
+        let rect = disp.getBoundingClientRect();
         let x = event.clientX - rect.left;
         let y = event.clientY - rect.top;
-        m.x = x*(canvas.width/disp.width)
-        m.y = y*(canvas.height/disp.height)
+        m.x = dispToCanvas(x, y).x
+        m.y = dispToCanvas(x, y).y
           
         player.acc = true
       })
