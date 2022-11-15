@@ -217,8 +217,8 @@
         let rect = canvas.getBoundingClientRect();
         let x = event.clientX - rect.left;
         let y = event.clientY - rect.top;
-        m.x = x*(canvas.height/disp.height)
-        m.y = y*(disp.width/canvas.width)
+        m.x = x*(canvas.width/disp.width)
+        m.y = y*(canvas.height/disp.height)
         player.acc = true
       })
       
