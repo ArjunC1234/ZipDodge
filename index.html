@@ -13,10 +13,7 @@
       crossorigin="anonymous"
     ></script> 
     <script>
-      var is_mobile = !!navigator.userAgent.match(/iphone|android|blackberry/ig) || false;
-      if (true) {
-        window.location.pathname = "/mobile.html"
-      }
+
       // CANVAS ---------------------------------------------------------------------------------------
 
       var canvas = document.createElement("canvas")
@@ -440,8 +437,6 @@
 
       //game loop
       function loop() {
-        requestAnimationFrame(loop)
-
         frames.now = Date.now()
         frames.delta = frames.now - frames.then
 
@@ -463,13 +458,12 @@
           
           frames.then = frames.now - (frames.delta % frames.interval);
         }
+        
+        setTimeout(loop, 1)
       }
 
       // CALL GAME LOOP --------------------------------------------------------------------
       loop()
-      
-      
-      
       
     </script>
   </body>
